@@ -1,0 +1,112 @@
+-- =====================================
+-- Drop tables if they exist
+-- =====================================
+DROP TABLE IF EXISTS emp;
+DROP TABLE IF EXISTS empp;
+DROP TABLE IF EXISTS Employee;
+
+-- =====================================
+-- Step 1: Create EMP table
+-- =====================================
+CREATE TABLE emp (
+    empno INT PRIMARY KEY,
+    ename VARCHAR(30) NOT NULL,
+    job VARCHAR(10),
+    mgr INT,
+    hiredate DATE,
+    sal DECIMAL(7,2),
+    deptno INT
+);
+
+-- Insert sample data into emp
+INSERT INTO emp VALUES (3737, 'Priya', 'Officer', 7777, '2009-03-07', 51000, 7);
+INSERT INTO emp VALUES (4545, 'Priya', 'Secretary', 3337, '2009-06-09', 21000, 20);
+INSERT INTO emp VALUES (7575, 'Karthi', 'Manager', 3337, '2007-07-07', 75000, 20);
+INSERT INTO emp VALUES (5352, 'Retish', 'Secretary', 5555, '2009-06-09', 20000, 8);
+INSERT INTO emp VALUES (5332, 'Rocky', 'Assist', 5555, '2008-01-08', 19500, 7);
+INSERT INTO emp VALUES (6544, 'Santh', 'Officer', 3337, '2009-01-23', 19000, 8);
+
+-- =====================================
+-- Step 2: Create EMPP table (phone numbers)
+-- =====================================
+CREATE TABLE empp (
+    empno INT PRIMARY KEY,
+    ph_no BIGINT
+);
+
+-- Insert sample data into empp
+INSERT INTO empp VALUES (3737, 225301);
+INSERT INTO empp VALUES (4545, 485565);
+INSERT INTO empp VALUES (6544, 789663);
+INSERT INTO empp VALUES (7575, 896652);
+INSERT INTO empp VALUES (6555, 987777); -- will not join with emp
+
+-- =====================================
+-- Step 3: View Creation (Read-Only Join)
+-- =====================================
+CREATE OR REPLACE VIEW view1 AS
+SELECT emp.ename, empp.ph_no
+FROM emp
+JOIN empp ON emp.empno = empp.empno;
+
+-- =====================================
+-- Step 4: Create Employee table for index demo
+-- =====================================
+CREATE TABLE Employee (
+    Emp_Id INT PRIMARY KEY,
+    Emp_Name VARCHAR(50),
+    Emp_Salary INT,
+    Emp_City VARCHAR(50),
+    Emp_State VARCHAR(50)
+);
+
+-- Insert sample data into Employee
+INSERT INTO Employee VALUES (1001, 'Akshay', 20000, 'Noida', 'U.P');
+INSERT INTO Employee VALUES (1002, 'Ram', 35000, 'Jaipur', 'Rajasthan');
+INSERT INTO Employee VALUES (1003, 'Shyam', 25000, 'Gurgaon', 'Haryana');
+INSERT INTO Employee VALUES (1004, 'Yatin', 30000, 'Lucknow', 'U.P');
+
+-- =====================================
+-- Step 5: Index Operations
+-- =====================================
+
+-- Single-column index
+CREATE INDEX index_state ON Employee (Emp_State);
+
+-- Composite index
+CREATE INDEX index_city_state ON Employee (Emp_City, Emp_State);
+
+-- Unique index
+CREATE UNIQUE INDEX index_emp_id ON Employee (Emp_Id);
+
+-- Rename index (MySQL syntax)
+ALTER TABLE Employee RENAME INDEX index_state TO index_employee_state;
+
+-- Drop index
+DROP INDEX index_employee_state ON Employee;
+
+-- =====================================
+-- Step 6: OUTPUT Section
+-- =====================================
+
+-- Show structure of emp table
+DESC emp;
+
+-- Display data from emp table
+
+SELECT * FROM emp;
+
+-- Display data from empp table
+
+SELECT * FROM empp;
+
+-- Display view result
+
+SELECT * FROM view1;
+
+-- =====================================
+-- Final Output of emp table
+-- =====================================
+-- Output from SELECT * FROM emp;
+
+SELECT * FROM emp;

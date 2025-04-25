@@ -1,0 +1,39 @@
+-- Create the emp table
+CREATE TABLE emp (
+    EMPNO INT PRIMARY KEY,
+    ENAME VARCHAR(30),
+    JOB VARCHAR(10),
+    MGR INT,
+    HIREDATE DATE,
+    SAL DECIMAL(7, 2),
+    DEPTNO INT
+);
+desc emp;
+-- Insert data into emp table
+INSERT INTO emp (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, DEPTNO) VALUES
+(3737, 'Priya', 'Officer', 7777, '2009-03-07', 51000, 7),
+(4545, 'Priya', 'Secretary', 3337, '2009-06-09', 21000, 20),
+(7575, 'Karthi', 'Manager', 3337, '2007-07-07', 75000, 20),
+(5352, 'Retish', 'Secretary', 5555, '2009-06-09', 20000, 8),
+(5332, 'Rocky', 'Assist', 5555, '2008-01-08', 19500, 7),
+(6544, 'Santh', 'Officer', 3337, '2009-01-23', 19000, 8);
+select * from emp;
+-- Average Salary
+SELECT AVG(SAL) AS Average_Salary FROM emp;
+-- Result: 34250.00
+
+-- Minimum Salary
+SELECT MIN(SAL) AS Minimum_Salary FROM emp;
+-- Result: 19000
+
+-- Maximum Salary
+SELECT MAX(SAL) AS Maximum_Salary FROM emp;
+-- Result: 75000
+
+-- Total Salary
+SELECT SUM(SAL) AS Total_Salary FROM emp;
+-- Result: 205500
+
+-- Employee Count
+SELECT COUNT(*) AS Employee_Count FROM emp;
+-- Result: 6

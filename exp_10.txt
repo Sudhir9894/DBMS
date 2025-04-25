@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Main XML Document (ProductWithDTD, XDR, and XSD included in one file) -->
+
+<!-- Declaration of XML Document with DTD Link -->
+<!DOCTYPE Product SYSTEM "Product.dtd">
+
+<Product ProductID="123" xmlns="urn:MyNamespace"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:MyNamespace Product.xsd">
+    
+    <!-- Product Data -->
+    <ProductName>Rugby jersey</ProductName>
+
+</Product>
+
+<!-- DTD Definition -->
+<!-- Product.dtd -->
+<!ELEMENT Product (ProductName)>
+<!ATTLIST Product ProductID CDATA #REQUIRED>
+<!ELEMENT ProductName (#PCDATA)>
+
+<!-- XDR Schema Definition -->
+<!-- Product.xdr -->
+<Schema name="ProductSchema"
+    xmlns="urn:schemas-microsoft-com:xml-data"
+    xmlns:dt="urn:schemas-microsoft-com:datatypes">
+    
+    <AttributeType name="ProductID" dt:type="int"/>
+    <ElementType name="ProductName" dt:type="string"/>
+    
+    <ElementType name="Product" content="eltOnly">
+        <attribute type="ProductID" required="yes"/>
+        <element type="ProductName"/>
+    </ElementType>
+</Schema>
+
+<!-- XSD Schema Definition -->
+<!-- Product.xsd -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="urn:MyNamespace"
+    xmlns="urn:MyNamespace"
+    elementFormDefault="qualified">
+    
+    <xsd:element name="Product">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="ProductName" type="xsd:string"/>
+            </xsd:sequence>
+            <xsd:attribute name="ProductID" use="required" type="xsd:int"/>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

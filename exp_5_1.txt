@@ -1,0 +1,111 @@
+-- Create the 'customer' table
+CREATE TABLE customer (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_name VARCHAR(55),
+    account INT,
+    email VARCHAR(55)
+);
+
+-- Create the 'balance' table
+CREATE TABLE balance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    account INT,
+    balance FLOAT(10,2)
+);
+
+-- Insert data into the 'customer' table
+INSERT INTO customer(customer_name, account, email)
+VALUES 
+    ('Stephen', 1030, 'stephen@javatpoint.com'), 
+    ('Jenifer', 2035, 'jenifer@javatpoint.com'), 
+    ('Mathew', 5564, 'mathew@javatpoint.com'), 
+    ('Smith', 4534, 'smith@javatpoint.com'), 
+    ('David', 7648, 'david@javatpoint.com');
+
+-- Insert data into the 'balance' table
+INSERT INTO balance(account, balance)
+VALUES 
+    (1030, 50000.00), 
+    (2035, 230000.00), 
+    (5564, 125000.00), 
+    (4534, 80000.00), 
+    (7648, 45000.00);
+
+-- Output the 'customer' table data
+SELECT * FROM customer;
+
+-- Output the 'balance' table data
+SELECT * FROM balance;
+
+-- Perform an INNER JOIN (Equi JOIN) between 'customer' and 'balance' tables
+SELECT customer.customer_name, customer.account, balance.balance
+FROM customer
+JOIN balance ON customer.account = balance.account;
+
+-- Create the 'student' table (Fixing the missing table issue)
+CREATE TABLE student (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    class INT,
+    city VARCHAR(100)
+);
+
+-- Insert data into the 'student' table
+INSERT INTO student (id, name, class, city)
+VALUES
+    (3, 'Hina', 3, 'Delhi'),
+    (4, 'Megha', 2, 'Delhi'),
+    (6, 'Gouri', 2, 'Delhi');
+
+-- Create the 'record' table
+CREATE TABLE record (
+    id INT PRIMARY KEY,
+    class INT,
+    city VARCHAR(100)
+);
+
+-- Insert data into the 'record' table
+INSERT INTO record (id, class, city)
+VALUES
+    (93, 3, 'Delhi'),
+    (10, 2, 'Delhi'),
+    (12, 2, 'Delhi');
+
+-- Perform a Non-Equi JOIN (student.id < record.id)
+SELECT student.name, record.id, record.city
+FROM student, record
+WHERE student.id < record.id;
+
+-- Create the 'students' table
+CREATE TABLE students (
+    id INTEGER,
+    name TEXT NOT NULL,
+    gender TEXT
+);
+
+-- Insert data into the 'students' table
+INSERT INTO students VALUES (1, 'Ryan', 'M');
+INSERT INTO students VALUES (2, 'Joanna', 'F');
+INSERT INTO students VALUES (3, 'Moana', 'F');
+
+-- Create the 'college' table
+CREATE TABLE college (
+    id INTEGER,
+    classTeacher TEXT NOT NULL,
+    Strength TEXT NOT NULL
+);
+
+-- Insert data into the 'college' table
+INSERT INTO college VALUES (1, 'Alpha', '50');
+INSERT INTO college VALUES (2, 'Romeo', '60');
+INSERT INTO college VALUES (3, 'Charlie', '55');
+
+-- Perform a simulated FULL OUTER JOIN between 'students' and 'college'
+SELECT college.classTeacher, students.id
+FROM college
+LEFT JOIN students ON college.id = students.id
+UNION
+SELECT college.classTeacher, students.id
+FROM college
+RIGHT JOIN students ON college.id = students.id
+ORDER BY classTeacher;

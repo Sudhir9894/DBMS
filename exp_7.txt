@@ -1,0 +1,46 @@
+-- Step 1: Create 'goods' table with a larger size for 'itemname' column
+CREATE TABLE goods (
+    sno INT,                   -- sno column as an integer
+    itemcode INT PRIMARY KEY,  -- itemcode as primary key
+    itemname VARCHAR(50),      -- itemname column with a larger size (up to 50 characters)
+    cost DECIMAL(10,2)         -- cost as a decimal value
+);
+
+-- Step 2: Insert records into 'goods' with itemname values that are longer than 10 characters
+INSERT INTO goods VALUES(1, 1025, 'dell monitors', 5000.00);
+INSERT INTO goods VALUES(2, 1026, 'mouse', 250.00);
+INSERT INTO goods VALUES(3, 1027, 'RAM', 1500.00);
+INSERT INTO goods VALUES(4, 1028, 'webcam', 350.00);
+INSERT INTO goods VALUES(5, 1029, 'pendrive', 500.00);
+
+-- Step 3: Commit the changes to make them permanent
+COMMIT;
+
+-- Step 4: Start a new transaction to set savepoints
+START TRANSACTION;
+
+-- Insert some new records and create savepoints
+INSERT INTO goods VALUES(6, 1030, 'keyboard', 500.00);
+SAVEPOINT s1;
+
+INSERT INTO goods VALUES(7, 1031, 'DVD drive', 2500.00);
+SAVEPOINT s2;
+
+INSERT INTO goods VALUES(8, 1032, 'UPS', 3000.00);
+INSERT INTO goods VALUES(9, 1033, 'CPU', 5000.00);
+SAVEPOINT s3;
+
+-- Step 5: Rollback to Savepoint s3 (undo the changes made after s3)
+ROLLBACK TO SAVEPOINT s3;
+SELECT * FROM goods;
+
+-- Step 6: Rollback to Savepoint s2 (undo the changes made after s2)
+ROLLBACK TO SAVEPOINT s2;
+SELECT * FROM goods;
+
+-- Step 7: Full Rollback (undo all changes made in the session)
+ROLLBACK;
+SELECT * FROM goods;
+
+
+

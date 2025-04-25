@@ -1,0 +1,49 @@
+
+-- Step 1: Create the stored procedure
+DELIMITER $$
+
+CREATE PROCEDURE func1(IN str VARCHAR(20))
+BEGIN
+    -- Concatenate 'WELCOME TO' with the input string and output it
+    SELECT CONCAT('WELCOME TO ', str) AS greeting;
+END $$
+
+DELIMITER ;
+
+-- Step 2: Call the stored procedure with an input string
+CALL func1('DBMS LAB');
+-- Step 3: Create the student table (if not already created)
+CREATE TABLE IF NOT EXISTS student (
+    regno INT,
+    name VARCHAR(20),
+    mark1 INT,
+    mark2 INT,
+    mark3 INT,
+    mark4 INT,
+    mark5 INT
+);
+desc student;
+-- Step 4: Insert sample student data
+INSERT INTO student (regno, name, mark1, mark2, mark3, mark4, mark5)
+VALUES
+    (101, 'priya', 78, 88, 77, 60, 89),
+    (102, 'karthi', 99, 77, 69, 81, 99),
+    (103, 'karthipriya', 100, 90, 97, 89, 91);
+select * from student;
+-- Step 5: Calculate total and average for students who passed all subjects (marks >= 40)
+SELECT 
+    regno,
+    name,
+    mark1,
+    mark2,
+    mark3,
+    mark4,
+    mark5,
+    (mark1 + mark2 + mark3 + mark4 + mark5) AS total,
+    ROUND((mark1 + mark2 + mark3 + mark4 + mark5) / 5, 2) AS average
+FROM student
+WHERE mark1 >= 40 
+  AND mark2 >= 40 
+  AND mark3 >= 40 
+  AND mark4 >= 40 
+  AND mark5 >= 40;

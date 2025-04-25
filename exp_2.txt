@@ -1,0 +1,69 @@
+-- Create the CUSTOMERS table
+CREATE TABLE CUSTOMERS (
+    ID INT PRIMARY KEY,   -- Ensure this is the primary key
+    Name VARCHAR(100),
+    Email VARCHAR(100)
+);
+
+-- Create the ORDERS table with a foreign key reference to CUSTOMERS
+CREATE TABLE ORDERS (
+    ID INT NOT NULL,
+    DATE DATETIME,
+    CUSTOMER_ID INT,
+    AMOUNT DOUBLE,
+    PRIMARY KEY (ID),
+    CONSTRAINT fk_customer_id FOREIGN KEY (CUSTOMER_ID) REFERENCES CUSTOMERS(ID)
+);
+
+-- (Optional) Drop foreign key if necessary (replace 'fk_name' with actual name)
+-- ALTER TABLE ORDERS DROP FOREIGN KEY fk_name;
+
+-- Create the BUS table (which is missing)
+CREATE TABLE BUS (
+    bus_no INT PRIMARY KEY,    -- Unique bus number
+    bus_model VARCHAR(100),    -- Bus model name or number
+    capacity INT               -- Bus capacity
+);
+
+-- Create the RESERVATION table (assuming you don't have this yet)
+CREATE TABLE RESERVATION (
+    PNR_N INT PRIMARY KEY,     -- Unique reference for the reservation (int)
+    busno INT,                 -- Foreign key for bus reference
+    customer_id INT            -- This can reference a CUSTOMER, if needed
+);
+
+-- Add foreign key constraint to RESERVATION for the BUS table
+ALTER TABLE RESERVATION
+ADD CONSTRAINT fk_bus_no FOREIGN KEY (busno) REFERENCES BUS(bus_no);
+
+-- Create the CANCELLATION table (assuming you don't have this yet)
+CREATE TABLE CANCELLATION (
+    PNR_NO INT PRIMARY KEY,    -- Unique reference for the cancellation (int)
+    CANCELLATION_DATE DATETIME
+);
+
+-- Add foreign key constraint to CANCELLATION referencing RESERVATION
+ALTER TABLE CANCELLATION
+ADD CONSTRAINT fk_pnr_no FOREIGN KEY (PNR_NO) REFERENCES RESERVATION(PNR_N);
+
+-- Create the TICKET table (which is missing)
+CREATE TABLE TICKET (
+    Ticket_NO NUMERIC(9) PRIMARY KEY,    -- Unique ticket number
+    Issue_Date DATETIME,                 -- Date of issue
+    Price DOUBLE                          -- Price of the ticket
+);
+
+-- Create the PASSENGER table with foreign keys to RESERVATION and TICKET tables
+CREATE TABLE PASSENGER (
+    PNR_NO INT,               -- Corrected to INT, matching RESERVATION(PNR_N)
+    Ticket_NO NUMERIC(9),     -- Matches TICKET(Ticket_NO)
+    Name VARCHAR(20),
+    Age INT,                  -- Changed from 'Number' to 'INT'
+    Sex CHAR(10),
+    PPNO VARCHAR(15),
+    PRIMARY KEY (PNR_NO, Ticket_NO),  -- Composite primary key
+    FOREIGN KEY (PNR_NO) REFERENCES RESERVATION(PNR_N),  -- Ensured data types match
+    FOREIGN KEY (Ticket_NO) REFERENCES TICKET(Ticket_NO)  -- Now TICKET table exists
+);
+
+-- (Optional) If necessary, you can add more constraints or modify table definitions here.

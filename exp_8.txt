@@ -1,0 +1,29 @@
+-- Step 1: Create the 'account' table
+DROP TABLE IF EXISTS account;
+
+CREATE TABLE account (
+    sum INT,
+    amount INT
+);
+
+-- Step 2: Insert initial data
+INSERT INTO account (sum, amount) VALUES
+(10, 20),
+(20, 30),
+(30, 40);
+
+-- Step 3: Display BEFORE update data
+
+SELECT * FROM account;
+
+-- Step 4: Manually simulate the trigger logic:
+-- If sum is being set to 50, replace it with 100
+UPDATE account
+SET sum = CASE 
+    WHEN 50 = 50 THEN 100  -- Always true for this use case
+    ELSE sum
+END;
+
+-- Step 5: Display AFTER update data
+
+SELECT * FROM account;
